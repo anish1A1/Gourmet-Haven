@@ -1,0 +1,94 @@
+{% extends 'Grocery/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .cartdata {
+        margin-top: 20px;
+    }
+    .product_data {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    .product_data img {
+        border-radius: 50%;
+    }
+    .product_data h6 {
+        margin: 0;
+    }
+    .qty-input {
+        width: 50px;
+        text-align: center;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+</style>
+
+<div class="py-3 bg-secondary mb-2">
+    <div class="container nav-container">
+        <a class="nav-link" href="{% url 'Grocery-Home' %}">Home</a>
+        <span class="text-white">/</span> <!-- Separator -->
+        <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+    </div>
+</div>    
+
+<div class="container">
+    <br>
+   
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body cartdata">
+                    {% if cart %}
+                        {% for item in cart %}
+                        <div class="row product_data">
+                            <div class="col-md-2 my-auto">
+                                <img src="{{ item.product.product_image.url }}" height="70px" width="70px" alt="Image">
+                            </div>
+                            <div class="col-md-3 my-auto">
+                                <h6>  {{ item.product.name }}</h6>
+                            </div>
+                            <div class="col-md-2 my-auto">
+                                <h6> Rs {{ item.product.selling_price }}</h6>
+                            </div>
+                            <div class="col-md-3 my-auto">
+                                <input type="hidden" class="prod_id" value=" {{item.product_id}}">
+                                {% csrf_token %}
+                                {% if item.product.quantity >= item.product_qty %}
+                                <label for="Quantity">Quantity</label>
+                                <div class="input-group text-center mb-3" style="width: 130px;">
+                                    <button class="input-group-text changeQuantity decrement-btn">-</button>
+                                    <input type="text" name="quantity" class="form-control qty-input text-center" value=" {{ item.product_qty}} ">
+                                    <button class="input-group-text changeQuantity increment-btn">+</button>
+                                </div>
+                                {% else %}
+                                <h6>Out of Stock!</h6>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-2 my-auto">
+                                <button class="btn btn-danger delete-cart-item">
+                                    <i class="fa fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}   
+                        <a href="{% url 'checkout' %}" class="btn btn-outline-success">Checkout</a>
+                    {% else %}
+                    <h4>Your cart is empty</h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+

@@ -1,0 +1,82 @@
+{% extends 'Grocery/base.html' %}
+
+{% block content %}
+<style>
+    /* Category Card */
+    .category-card {
+        border: none;
+        transition: transform 0.3s ease;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px); /* Add upward movement on hover */
+    }
+
+    .category-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 130px;
+        border-radius: 8px; /* Rounded corners */
+        overflow: hidden; /* Hide overflow if image is larger than container */
+    }
+
+    .category-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    .category-name {
+        font-size: 18px;
+        text-align: center;
+        margin-top: 10px;
+        color: #333; /* Set text color */
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    /* Container styles */
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    /* Page title */
+    .page-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="py-3 bg-secondary mb-2">
+    <div class="container nav-container">
+        <a class="nav-link" href="{% url 'Grocery-Home' %}">Home</a>
+        <span class="text-white">/</span> <!-- Separator -->
+        <a class="nav-link" href="{% url 'collections' %}">Collections</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="page-title">Collections</h1>
+    <div class="row">
+        {% for item in category %}
+        <div class="col-md-3">
+            <div class="card mb-4 category-card">
+                <a href="{% url 'collectionsview' item.slug %}" class="category-link">
+                    <div class="card-body">
+                        <div class="category-image">
+                            <img src="{{ item.image.url }}" alt="category image" class="img-fluid">
+                        </div>
+                        <h4 class="category-name"> {{ item.name }} </h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

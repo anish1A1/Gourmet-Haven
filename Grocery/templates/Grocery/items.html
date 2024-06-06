@@ -1,0 +1,97 @@
+{% extends 'Grocery/base.html' %}
+
+
+{% load static %}
+{% block content %}
+
+<style>
+    body, h1, h2, h3, h4, h5, h6, .card-title a {
+        font-family: 'Poppins', sans-serif; /* Consistent font throughout */
+    }
+    .container {
+        margin-top: 20px;
+    }
+
+   
+    .card-title a {
+        color: #333; /* Dark color for contrast */
+        text-decoration: none; /* No underlines */
+    }
+
+    .card-title a:hover {
+        color: #007bff; /* A slightly brighter blue for hover state */
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0,0,0,.1); /* Subtle shadow */
+        transition: transform .3s ease-in-out; /* Smooth transition for hover effect */
+        border: none; /* Removes the default border */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Slightly raise the card on hover */
+        border-color: #007bff; /* Highlight with a border color on hover */
+    }
+
+    
+
+    .description {
+        color: #495057; /* A softer dark for the description */
+        font-size: 0.9rem; /* Appropriately sized font for descriptions */
+        font-weight: 400; /* Regular weight for a clean look */
+    }
+
+    hr {
+        margin: 1rem 0; /* Adjust spacing around the horizontal rule */
+        border-top: 1px solid #a5b4c2; /* Lighter hr color for subtlety */
+    }
+</style>
+
+
+<div class="py-3 bg-secondary mb-2">
+    <div class="container nav-container">
+        <a class="nav-link" href="{% url 'Grocery-Home' %}">Home</a>
+        <span class="text-white">/</span> <!-- Separator -->
+        <a class="nav-link" href="{% url 'collections' %}">Collections</a>
+        <span class="text-white">/</span> <!-- Separator -->
+        <a class="nav-link" href="{% url 'collectionsview' category.slug %}"> {{ category.name }}</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">{{ category.name }}</h1>
+            <hr>
+            <div class="row">
+                {% for item in products %}
+                    <div class="col-md-3">
+                        <div class="card mb-4">
+                            <a href="{% url 'productview' item.category.slug item.slug %} " class="card-link"> <!-- Add class="card-link" to the anchor tag -->
+                                <div class="card-body">
+                                    <div class="category-image">
+                                        {% if item.product_image %}
+                                            <img src="{{ item.product_image.url }}" alt="Product image" class="img-fluid rounded">
+                                        {% else %}
+                                            <p>No image available</p>
+                                        {% endif %}
+                                    </div>
+                                    <h4 class="card-title"><a>{{ item.name }}</a></h4> 
+                                    <hr>
+                                    <div class="card-text">
+                
+                                        <span class="card-price float-end">Rs {{ item.selling_price | stringformat:'d'}}</span><br><br>
+                                        <span class="description float-start"> {{ item.small_description }}</span>
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                </div>
+                            </a>    
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,346 @@
+{% extends 'Grocery/base.html' %}
+{% load static %}
+{%block content%}
+
+<style>
+    .section-background {
+        background-color: #f7f7f7; /* Light gray background color */
+        padding: 20px; /* Reduce padding */
+        margin-bottom: 20px; /* Reduce margin */
+        border-radius: 15px; /* Add rounded corners */
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* Add shadow */
+      }
+
+    /* Rice category section styling */
+    .rice-category {
+        margin-top: 40px; /* Add margin at the top */
+    }
+
+    .rice-category h2 {
+        color: #333; /* Set heading color */
+        margin-bottom: 20px; /* Add margin below the heading */
+    }
+
+    /* Individual rice product card styling */
+    .rice-product-card {
+        margin-bottom: 20px; /* Add margin at the bottom */
+    }
+
+    .rice-product-card .card {
+        border-radius: 10px; /* Add rounded corners to the card */
+        border: none; /* Remove border */
+    }
+
+    .rice-product-card .card-img-top {
+        border-top-left-radius: 10px; /* Add rounded corners to the top left of the image */
+        border-top-right-radius: 10px; /* Add rounded corners to the top right of the image */
+    }
+
+    .rice-product-card .card-title {
+        font-size: 20px; /* Adjust font size */
+        margin-top: 10px; /* Add margin at the top */
+    }
+
+    .rice-product-card .card-text {
+        color: #666; /* Set text color */
+    }
+
+    .rice-product-card .btn {
+        background-color: #007bff; /* Set button background color */
+        border-color: #007bff; /* Set button border color */
+        color: #fff; /* Set text color */
+        border-radius: 10px; /* Add rounded corners */
+        transition: background-color 0.3s ease; /* Smooth transition */
+    }
+
+    .rice-product-card .btn:hover {
+        background-color: #0056b3; /* Change button background color on hover */
+        border-color: #0056b3; /* Change button border color on hover */
+    }
+    /* Banner Section */
+.banner {
+    background-color: #dde3e8;
+    padding: 40px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Ensure gradient pseudo-element stays within bounds */
+}
+
+.banner h2 {
+    color: #343a40;
+    font-size: 36px; /* Increase font size for better emphasis */
+    margin-bottom: 15px; /* Adjust spacing for better alignment */
+    font-weight: bold; /* Add bold font weight for emphasis */
+}
+
+.banner p {
+    color: #6c757d;
+    font-size: 20px; /* Increase font size for better readability */
+    margin-bottom: 25px; /* Adjust spacing for better alignment */
+}
+
+/* Pseudo-element for decoration */
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom right, #007bff, #00bcd4);
+    border-radius: 10px;
+    z-index: -1;
+    transition: opacity 0.5s ease; /* Add transition for smooth effect */
+    opacity: 0.8; /* Reduce opacity slightly for better blending */
+}
+
+.banner:hover::before {
+    opacity: 1; /* Increase opacity on hover for a subtle effect */
+}
+
+    .bn5 {
+        padding: 0.6em 2em;
+        border: none;
+        outline: none;
+        color: #fff; /* Set text color to white */
+        background: linear-gradient(135deg, #007bff, #00bcd4); /* Use a gradient for the background */
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+        text-decoration: none; /* Remove underline from links */
+        font-size: 18px; /* Adjust font size */
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions */
+    }
+    
+    .bn5:before {
+        content: "";
+        background: linear-gradient(
+            45deg,
+            #ff0000,
+            #ff7300,
+            #fffb00,
+            #48ff00,
+            #00ffd5,
+            #002bff,
+            #7a00ff,
+            #ff00c8,
+            #ff0000
+        );
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowingbn5 20s linear infinite;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        border-radius: 10px;
+    }
+    
+    @keyframes glowingbn5 {
+        0% {
+            background-position: 0 0;
+        }
+        50% {
+            background-position: 400% 0;
+        }
+        100% {
+            background-position: 0 0;
+        }
+    }
+    
+    .bn5:active {
+        transform: translateY(1px); /* Add slight downward movement when clicked */
+    }
+    
+    .bn5:hover:before {
+        opacity: 1;
+    }
+    
+    .bn5:after {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #191919;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+   
+    
+        body, h1, h2, h3, h4, h5, h6, .card-title a {
+            font-family: 'Poppins', sans-serif; /* Consistent font throughout */
+        }
+    
+        .container {
+            margin-top: 20px;
+        }
+    
+       
+        .card-title a {
+            color: #333; /* Dark color for contrast */
+            text-decoration: none; /* No underlines */
+        }
+    
+        .card-title a:hover {
+            color: #007bff; /* A slightly brighter blue for hover state */
+        }
+    
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,.1); /* Subtle shadow */
+            transition: transform .3s ease-in-out; /* Smooth transition for hover effect */
+            border: none; /* Removes the default border */
+        }
+    
+        .card:hover {
+            transform: translateY(-5px); /* Slightly raise the card on hover */
+            border-color: #007bff; /* Highlight with a border color on hover */
+        }
+    
+       
+    
+        .description {
+            color: #495057; /* A softer dark for the description */
+            font-size: 0.9rem; /* Appropriately sized font for descriptions */
+            font-weight: 400; /* Regular weight for a clean look */
+        }
+    
+        hr {
+            margin: 1rem 0; /* Adjust spacing around the horizontal rule */
+            border-top: 1px solid #a5b4c2; /* Lighter hr color for subtlety */
+        }
+    </style>
+    
+    
+    
+    
+
+
+
+    
+    <!-- Image Slider -->
+    <div id="imageSlider" class="carousel slide section-background" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+               <a href=" {% url 'collections' %}"><img src="{% static 'images/Vegetables/banner1.jpg' %}" class="d-block w-100 img-fluid" alt="Grocery Image 1">
+               </a> 
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/rices/BrownRice.png' %}" class="d-block w-100 img-fluid" alt="Grocery Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/rices/goodDay.png' %}" class="d-block w-100 img-fluid" alt="Grocery Image 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#imageSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#imageSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+        
+
+    
+  <!-- Banner Section -->
+  <div class="container section-background">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="banner">
+                <h2>Discover a World of Possibilities</h2>
+                <p>Explore our curated collections and find exactly what you're looking for</p>
+                <a href="{% url 'collections' %}" class="bn5">Browse Collections</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">Most Favorite Products</h1>
+            <hr>
+            <div class="row">
+                {% for item in grocery_category %}
+                    <div class="col-md-3">
+                        <div class="card mb-4">
+                            <a href="{% url 'productview' item.category.slug item.slug %}" class="card-link">
+                                <div class="card-body">
+                                    <div class="category-image">
+                                        {% if item.product_image %}
+                                            <img src="{{ item.product_image.url }}" alt="Product image" class="img-fluid rounded">
+
+                                        {% else %}
+                                            <p>No image available</p>
+                                        {% endif %}
+                                    </div>
+                                    <h4 class="card-title"><a>{{ item.name }}</a></h4>
+                                    
+                                    <hr>
+                                    <div class="card-text">
+                                        <span class="card-price float-end">Rs {{ item.selling_price | stringformat:'d'}}</span><br><br>
+                                        <span class="description float-start">{{ item.small_description }}</span>
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                </div>
+                            </a>    
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-dark">
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Web design</a></li>
+                        <li><a href="#">Development</a></li>
+                        <li><a href="#">Hosting</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>About</h3>
+                    <ul>
+                        <li><a href="#">Company</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 item text">
+                    <h3>Gourmet Haven</h3>
+                    <p>Elevate your grocery shopping with premium gourmet selections delivered to your doorstep. Discover exquisite ingredients and exclusive finds for a culinary journey like no other.</p>
+                </div>
+                <div class="col item social">
+                    <a href="https://www.facebook.com/anish.jaiswal.520900/"><i class="icon ion-social-facebook"></i>
+                    </a>
+                    <a href="#"><i class="icon ion-social-twitter"></i></a>
+                    <a href="#"><i class="icon ion-social-snapchat"></i></a>
+                    <a href="https://www.instagram.com/_anish_jaiswal/"><i class="icon ion-social-instagram"></i></a></div>
+            </div>
+            <p class="copyright">Gourmet Haven © 2024</p>
+        </div>
+    </footer>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,236 @@
+{% extends 'Grocery/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-body {
+        padding: 30px;
+    }
+    
+    .order-summary {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    
+    .order-summary h6 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+    
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    .table th,
+    .table td {
+        padding: 15px; /* Increased padding for better spacing */
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .table th {
+        background-color: #f2f2f2;
+        font-weight: bold; /* Bold font for table headers */
+    }
+    
+    .table img {
+        width: 60px; /* Slightly larger image size */
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+    }
+</style>
+
+<div class="py-3 bg-secondary mb-2">
+    <div class="container nav-container">
+        <a class="nav-link" href="{% url 'Grocery-Home' %}">Home</a>
+        <span class="text-white">/</span> <!-- Separator -->
+        <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+    </div>
+</div>    
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body order-summary">
+                    <h6>Order Summary</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cartitems %}
+                            <tr>
+                                <td>
+                                    <img src="{{ item.product.product_image.url }}" alt="Product Image">
+                                    {{ item.product.name }}
+                                </td>
+                                <td>{{ item.product_qty }}</td>
+                                <td>Rs {{ item.product.selling_price }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h6 class="fw-bold">Grand Total <span class="float-end">Rs {{ total_price }}</span></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4 text-center"> <!-- Added text-center class here -->
+        <div class="col-md-14">
+            <button class="truck-button">
+                <span class="default">Place Order</span>
+                <span class="success">
+                    Order Placed
+                    <svg viewbox="0 0 12 10">
+                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                    </svg>
+                </span>
+                <div class="truck">
+                    <div class="wheel"></div>
+                    <div class="back"></div>
+                    <div class="front"></div>
+                    <div class="box"></div>
+                </div>
+            </button>
+        </div>
+    </div>
+    
+    
+    </div>
+
+
+
+
+
+
+
+
+<
+<script>
+    document.querySelectorAll('.truck-button').forEach(button => {
+        button.addEventListener('click', e => {
+    
+            e.preventDefault();
+            
+            let box = button.querySelector('.box'),
+                truck = button.querySelector('.truck');
+            
+            if(!button.classList.contains('done')) {
+                
+                if(!button.classList.contains('animation')) {
+    
+                    button.classList.add('animation');
+    
+                    gsap.to(button, {
+                        '--box-s': 1,
+                        '--box-o': 1,
+                        duration: .3,
+                        delay: .5
+                    });
+    
+                    gsap.to(box, {
+                        x: 0,
+                        duration: .4,
+                        delay: .7
+                    });
+    
+                    gsap.to(button, {
+                        '--hx': -5,
+                        '--bx': 50,
+                        duration: .18,
+                        delay: .92
+                    });
+    
+                    gsap.to(box, {
+                        y: 0,
+                        duration: .1,
+                        delay: 1.15
+                    });
+    
+                    gsap.set(button, {
+                        '--truck-y': 0,
+                        '--truck-y-n': -26
+                    });
+    
+                    gsap.to(button, {
+                        '--truck-y': 1,
+                        '--truck-y-n': -25,
+                        duration: .2,
+                        delay: 1.25,
+                        onComplete() {
+                            gsap.timeline({
+                                onComplete() {
+                                    button.classList.add('done');
+                                }
+                            }).to(truck, {
+                                x: 0,
+                                duration: .4
+                            }).to(truck, {
+                                x: 40,
+                                duration: 1
+                            }).to(truck, {
+                                x: 20,
+                                duration: .6
+                            }).to(truck, {
+                                x: 96,
+                                duration: .4
+                            });
+                            gsap.to(button, {
+                                '--progress': 1,
+                                duration: 2.4,
+                                ease: "power2.in"
+                            });
+                        }
+                    });
+                    
+                }
+                
+            } else {
+                button.classList.remove('animation', 'done');
+                gsap.set(truck, {
+                    x: 4
+                });
+                gsap.set(button, {
+                    '--progress': 0,
+                    '--hx': 0,
+                    '--bx': 0,
+                    '--box-s': .5,
+                    '--box-o': 0,
+                    '--truck-y': 0,
+                    '--truck-y-n': -26
+                });
+                gsap.set(box, {
+                    x: -24,
+                    y: -6
+                });
+            }
+    
+        });
+    });
+    
+</script>
+
+
+
+{% endblock %}
+

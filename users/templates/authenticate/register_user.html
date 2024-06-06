@@ -1,0 +1,117 @@
+{% extends 'Grocery/base.html' %}
+
+{% block content %}
+<style>
+    body { 
+        font-family: Arial, Helvetica, sans-serif; 
+        background-color: #f9f9f9; /* Light gray background */
+    }
+    * { box-sizing: border-box; }
+    .input-container { 
+        display: -ms-flexbox; 
+        display: flex; 
+        width: 100%; 
+        margin-bottom: 15px; 
+    }
+    .icon { 
+        padding: 12px; 
+        background: #f0f0f0; /* Light gray background */
+        color: #555; /* Dark gray icon color */
+        min-width: 50px; 
+        text-align: center; 
+        font-size: 18px; /* Increase icon size */
+        border-radius: 5px 0 0 5px; /* Rounded corners */
+    }
+    .input-field { 
+        width: calc(100% - 50px); 
+        padding: 12px; 
+        outline: none; 
+        border: 2px solid #ccc; 
+        border-radius: 0 5px 5px 0; 
+        font-size: 16px; 
+    }
+    .input-field:focus { 
+        border-color: dodgerblue; 
+    }
+    .btn { 
+        background-color: dodgerblue; 
+        color: white; 
+        padding: 15px 20px; 
+        border: none; 
+        cursor: pointer; 
+        width: 100%; 
+        opacity: 0.9; 
+        border-radius: 5px; 
+        font-size: 16px; 
+        transition: opacity 0.3s, transform 0.3s; /* Smooth transition */
+    }
+    .btn:hover { 
+        opacity: 1; 
+        transform: scale(1.05); /* Increase button size on hover */
+        background-color: #0F69B4;;
+    }
+    .btn:active { 
+        transform: scale(0.95); /* Reduce button size when clicked */
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="mb-4 text-center">Register Form</h2>
+                
+                {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    There was an error with your form:
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                        {% endfor %}
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
+                <form action="{% url 'register_user' %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="input-container">
+                        <i class="fa fa-user icon"></i>
+                        <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" class="input-field form-control" placeholder="Username" required>
+                    </div>
+
+                    <div class="input-container">
+                        <i class="fa fa-envelope icon"></i>
+                        <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" class="input-field form-control" placeholder="Email" required>
+                    </div>
+                    
+                    <div class="input-container">
+                        <i class="fa fa-user icon"></i>
+                        <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" class="input-field form-control" placeholder="First Name" required>
+                    </div>
+
+                    <div class="input-container">
+                        <i class="fa fa-user icon"></i>
+                        <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" class="input-field form-control" placeholder="Last Name" required>
+                    </div>
+
+                    <div class="input-container">
+                        <i class="fa fa-key icon"></i>
+                        <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" class="input-field form-control" placeholder="Password" required>
+                    </div>
+
+                    <div class="input-container">
+                        <i class="fa fa-key icon"></i>
+                        <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" class="input-field form-control" placeholder="Confirm Password" required>
+                    </div>
+
+                    <button type="submit" class="btn">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
